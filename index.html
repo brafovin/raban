@@ -2,18 +2,87 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>raman_king – Battle Royale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>raman_king – 3D Battle Royale</title>
   <link rel="stylesheet" href="css/style.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three.module.js"
+    }
+  }
+  </script>
 </head>
 <body>
-  <div id="game-container"></div>
-  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/weapons.js"></script>
-  <script src="js/scenes/LobbyScene.js"></script>
-  <script src="js/scenes/HUDScene.js"></script>
-  <script src="js/scenes/GameScene.js"></script>
-  <script src="js/main.js"></script>
+  <!-- 3D Canvas -->
+  <div id="game-root"></div>
+
+  <!-- ====================== LOBBY ====================== -->
+  <div id="lobby" class="overlay">
+    <div class="lobby-stars" id="lobby-stars"></div>
+    <div class="lobby-box">
+      <h1 class="title">raman_king</h1>
+      <div class="title-line"></div>
+      <div class="device-row">Laptop oder Handy &nbsp;|&nbsp; <span id="device-text">💻 Laptop</span></div>
+
+      <div class="inv-title">Dein Inventar (5 Slots)</div>
+      <div class="inv-slots" id="lobby-slots"></div>
+
+      <div class="ready-row">Bereit? Dann los!</div>
+      <button id="play-btn" class="play-btn">SPIELEN</button>
+
+      <div class="tips">
+        <div>WASD = Bewegen &nbsp;|&nbsp; Maus = Umsehen &nbsp;|&nbsp; Klick = Schießen</div>
+        <div>1-5 = Slot &nbsp;|&nbsp; E = Truhe öffnen &nbsp;|&nbsp; G = Droppen &nbsp;|&nbsp; Leertaste = Springen</div>
+      </div>
+      <div class="version">raman_king 3D Battle Royale v2.0</div>
+    </div>
+  </div>
+
+  <!-- ====================== HUD ====================== -->
+  <div id="hud" class="hidden">
+    <!-- Fadenkreuz -->
+    <div id="crosshair">
+      <span class="ch ch-t"></span><span class="ch ch-b"></span>
+      <span class="ch ch-l"></span><span class="ch ch-r"></span>
+    </div>
+
+    <!-- Minimap oben rechts -->
+    <div id="minimap-wrap">
+      <div class="minimap-label">KARTE</div>
+      <canvas id="minimap" width="200" height="200"></canvas>
+      <div id="alive-counter">Alive: --</div>
+      <div id="storm-warn"></div>
+    </div>
+
+    <!-- Kill-Feed -->
+    <div id="killfeed"></div>
+
+    <!-- Interaktion-Prompt -->
+    <div id="interact-prompt" class="hidden">[ E ] Truhe öffnen</div>
+
+    <!-- HP-Balken -->
+    <div id="hp-wrap">
+      <div id="hp-bar"></div>
+      <div id="hp-text">100 HP</div>
+    </div>
+
+    <!-- Waffen-Hotbar unten -->
+    <div id="hotbar"></div>
+
+    <!-- Pause/Pointerlock-Hinweis -->
+    <div id="lock-hint" class="hidden">Klicke, um weiterzuspielen</div>
+  </div>
+
+  <!-- ====================== ENDSCREENS ====================== -->
+  <div id="endscreen" class="overlay hidden">
+    <div class="end-panel" id="end-panel">
+      <div class="end-title" id="end-title"></div>
+      <div class="end-sub" id="end-sub"></div>
+      <button id="restart-btn" class="play-btn">Nochmal spielen</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/game.js"></script>
 </body>
 </html>

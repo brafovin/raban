@@ -2,14 +2,165 @@
 
 html, body {
   width: 100%; height: 100%;
-  background: #080c1c;
+  background: #060912;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #fff;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-#game-container canvas {
-  display: block;
-  image-rendering: pixelated;
+#game-root { position: fixed; inset: 0; }
+#game-root canvas { display: block; }
+
+.hidden { display: none !important; }
+
+/* ===================== OVERLAY / LOBBY ===================== */
+.overlay {
+  position: fixed; inset: 0;
+  display: flex; justify-content: center; align-items: center;
+  background: radial-gradient(circle at 30% 20%, #14104a 0%, #080c1c 55%, #1a0830 100%);
+  z-index: 20;
 }
+
+.lobby-stars { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.lobby-stars i {
+  position: absolute; background: #fff; border-radius: 50%;
+}
+
+.lobby-box {
+  position: relative;
+  width: 480px; max-width: 92vw;
+  background: rgba(15, 20, 40, 0.92);
+  border: 2px solid #4858cc;
+  border-radius: 18px;
+  padding: 28px 24px 22px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  text-align: center;
+}
+
+.title {
+  font-size: 52px; font-weight: 900; letter-spacing: 1px;
+  color: #ffc800;
+  text-shadow: 0 0 18px rgba(255,160,0,0.55), 0 3px 0 #b05000;
+  animation: pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.82} }
+
+.title-line {
+  height: 2px; margin: 14px 30px 16px;
+  background: linear-gradient(90deg, transparent, #3848aa, transparent);
+}
+
+.device-row { font-size: 16px; color: #8899dd; margin-bottom: 18px; }
+
+.inv-title { font-size: 17px; font-weight: bold; color: #ccccee; margin-bottom: 12px; }
+
+.inv-slots { display: flex; justify-content: center; gap: 10px; margin-bottom: 18px; }
+.inv-slots .slot {
+  width: 74px; height: 80px;
+  background: #1a2445; border: 1.5px solid #3848aa; border-radius: 9px;
+  position: relative; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.inv-slots .slot .num { position: absolute; top: 4px; left: 6px; font-size: 12px; color: #6070b0; font-weight: bold; }
+.inv-slots .slot .ico { font-size: 22px; }
+.inv-slots .slot .nm { font-size: 10px; margin-top: 3px; color: #aab; }
+
+.ready-row { font-size: 17px; color: #9090bb; margin-bottom: 14px; }
+
+.play-btn {
+  background: #28b650; color: #fff;
+  font-size: 26px; font-weight: 900; font-family: inherit;
+  border: none; border-radius: 12px;
+  padding: 14px 50px; cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+.play-btn:hover { background: #38d060; }
+.play-btn:active { transform: scale(0.97); }
+
+.tips { margin-top: 16px; font-size: 12px; color: #56608a; line-height: 1.6; }
+.version { margin-top: 12px; font-size: 11px; color: #2a3050; }
+
+/* ===================== HUD ===================== */
+#hud { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
+
+/* Fadenkreuz */
+#crosshair {
+  position: absolute; left: 50%; top: 50%;
+  width: 26px; height: 26px; transform: translate(-50%, -50%);
+}
+#crosshair .ch { position: absolute; background: rgba(255,255,255,0.85); }
+.ch-t { left: 50%; top: 0; width: 2px; height: 9px; transform: translateX(-50%); }
+.ch-b { left: 50%; bottom: 0; width: 2px; height: 9px; transform: translateX(-50%); }
+.ch-l { top: 50%; left: 0; height: 2px; width: 9px; transform: translateY(-50%); }
+.ch-r { top: 50%; right: 0; height: 2px; width: 9px; transform: translateY(-50%); }
+
+/* Minimap */
+#minimap-wrap { position: absolute; top: 16px; right: 18px; text-align: center; }
+.minimap-label { font-size: 13px; font-weight: bold; color: #8090cc; margin-bottom: 3px; }
+#minimap {
+  width: 200px; height: 200px;
+  background: #0a1020; border: 2px solid #4050cc; border-radius: 10px;
+}
+#alive-counter {
+  margin-top: 6px; font-size: 14px; font-weight: bold;
+  background: rgba(10,16,32,0.8); border-radius: 6px; padding: 3px 8px; display: inline-block;
+}
+#storm-warn { margin-top: 5px; font-size: 12px; color: #8a8aff; min-height: 16px; }
+
+/* Kill-Feed */
+#killfeed { position: absolute; top: 300px; right: 18px; width: 240px; text-align: right; }
+#killfeed .kf {
+  background: rgba(0,0,0,0.55); border-radius: 6px; padding: 3px 8px;
+  font-size: 13px; margin-bottom: 4px; display: inline-block;
+  transition: opacity .5s;
+}
+
+/* HP-Balken */
+#hp-wrap {
+  position: absolute; left: 50%; bottom: 96px; transform: translateX(-50%);
+  width: 300px; height: 20px; background: #2a2a36; border-radius: 10px; overflow: hidden;
+}
+#hp-bar { height: 100%; width: 100%; background: #32dd50; transition: width .15s, background .2s; }
+#hp-text {
+  position: absolute; inset: 0; text-align: center; line-height: 20px;
+  font-size: 13px; font-weight: bold; text-shadow: 0 1px 2px #000;
+}
+
+/* Interaktion-Prompt */
+#interact-prompt {
+  position: absolute; left: 50%; top: 58%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.6); border: 1px solid #ffcc00; color: #ffcc00;
+  padding: 6px 14px; border-radius: 8px; font-size: 15px; font-weight: bold;
+}
+
+/* Hotbar */
+#hotbar {
+  position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%);
+  display: flex; gap: 6px;
+}
+#hotbar .wslot {
+  width: 66px; height: 66px; border-radius: 8px;
+  background: #111828; border: 1.5px solid #2a3060; position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+#hotbar .wslot.sel { background: #2a3a6a; border-color: #88aaff; border-width: 2.5px; }
+#hotbar .wslot .n { position: absolute; top: 3px; left: 5px; font-size: 12px; color: #6070b0; font-weight: bold; }
+#hotbar .wslot .ico { font-size: 20px; line-height: 1; }
+#hotbar .wslot .wn { font-size: 9px; margin-top: 2px; max-width: 62px; text-align: center; color: #ccd; }
+#hotbar .wslot .am { position: absolute; bottom: 2px; right: 5px; font-size: 10px; color: #aaa; }
+
+#lock-hint {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.7); padding: 14px 28px; border-radius: 10px;
+  font-size: 20px; pointer-events: none;
+}
+
+/* ===================== ENDSCREEN ===================== */
+.end-panel { text-align: center; padding: 40px 50px; border-radius: 18px; }
+.end-panel.win  { background: rgba(255,170,0,0.92); }
+.end-panel.lose { background: rgba(200,40,40,0.9); }
+.end-title { font-size: 40px; font-weight: 900; text-shadow: 0 3px 0 rgba(0,0,0,0.3); margin-bottom: 12px; }
+.end-sub   { font-size: 18px; margin-bottom: 24px; }
+#endscreen .play-btn { pointer-events: auto; }

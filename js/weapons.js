@@ -1,38 +1,32 @@
-const WEAPONS = [
+export const WEAPONS = [
   {
     id:'pistol', name:'Pistole',
-    damage:25, fireRate:500, ammo:16, bulletSpeed:700,
-    bulletLife:450, bulletColor:0xffff88,
-    rarity:'Common', rarityColor:0xaaaaaa,
+    damage:24, fireRate:420, range:160, spread:0.02,
+    rarity:'Common', rarityColor:'#aaaaaa', tracer:0xffff88,
   },
   {
     id:'shotgun', name:'Schrotflinte',
-    damage:60, fireRate:1200, ammo:8, bulletSpeed:550,
-    bulletLife:280, bulletColor:0xff8800, pellets:7,
-    rarity:'Uncommon', rarityColor:0x44cc44,
+    damage:14, fireRate:1000, range:55, spread:0.10, pellets:8,
+    rarity:'Uncommon', rarityColor:'#44cc44', tracer:0xff8800,
   },
   {
     id:'rifle', name:'Sturmgewehr',
-    damage:35, fireRate:140, ammo:30, bulletSpeed:900,
-    bulletLife:600, bulletColor:0x88aaff,
-    rarity:'Rare', rarityColor:0x4488ee,
+    damage:30, fireRate:130, range:240, spread:0.03,
+    rarity:'Rare', rarityColor:'#4488ee', tracer:0x88aaff,
   },
   {
     id:'sniper', name:'Scharfschütze',
-    damage:105, fireRate:1800, ammo:5, bulletSpeed:1400,
-    bulletLife:900, bulletColor:0xff44ff,
-    rarity:'Epic', rarityColor:0xaa44ee,
+    damage:100, fireRate:1600, range:480, spread:0.004,
+    rarity:'Epic', rarityColor:'#aa44ee', tracer:0xff44ff,
   },
   {
     id:'smg', name:'Maschinenpistole',
-    damage:18, fireRate:90, ammo:40, bulletSpeed:650,
-    bulletLife:350, bulletColor:0xffff44,
-    rarity:'Common', rarityColor:0xaaaaaa,
+    damage:16, fireRate:80, range:120, spread:0.05,
+    rarity:'Common', rarityColor:'#aaaaaa', tracer:0xffff44,
   },
   {
     id:'rocket', name:'Raketenwerfer',
-    damage:200, fireRate:2500, ammo:4, bulletSpeed:380,
-    bulletLife:1500, bulletColor:0xff4400, explosive:true, explosionR:80,
-    rarity:'Legendary', rarityColor:0xffaa00,
+    damage:120, fireRate:2200, range:300, spread:0.01, explosive:true, explosionR:18,
+    rarity:'Legendary', rarityColor:'#ffaa00', tracer:0xff4400,
   },
 ];
