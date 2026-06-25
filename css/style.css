@@ -151,6 +151,15 @@ html, body {
 #hotbar .wslot .wn { font-size: 9px; margin-top: 2px; max-width: 62px; text-align: center; color: #ccd; }
 #hotbar .wslot .am { position: absolute; bottom: 2px; right: 5px; font-size: 10px; color: #aaa; }
 
+#bus-prompt {
+  position: absolute; top: 28%; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.80); color: #ffee00;
+  font-size: 22px; font-weight: bold;
+  padding: 14px 32px; border-radius: 12px;
+  border: 2px solid #ffcc00; text-align: center;
+  pointer-events: none; letter-spacing: 0.5px;
+}
+
 #lock-hint {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   background: rgba(0,0,0,0.7); padding: 14px 28px; border-radius: 10px;
