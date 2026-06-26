@@ -2,90 +2,127 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>raman_king – 3D Battle Royale</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "./vendor/three.module.js"
-    }
-  }
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAMAN WEAR – Premium Tees</title>
+  <meta name="description" content="RAMAN WEAR – coole Premium T-Shirts in vielen Farben." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/shop.css" />
 </head>
 <body>
-  <!-- 3D Canvas -->
-  <div id="game-root"></div>
+  <!-- ====================== NAV ====================== -->
+  <header class="nav">
+    <a href="#top" class="brand">
+      <span class="brand-mark">◢◤</span> RAMAN<span class="brand-thin">WEAR</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#shop">Shop</a>
+      <a href="#configurator">Designer</a>
+      <a href="#about">Story</a>
+    </nav>
+    <button id="cart-toggle" class="cart-btn" aria-label="Warenkorb öffnen">
+      🛒 <span id="cart-count" class="cart-count">0</span>
+    </button>
+  </header>
 
-  <!-- ====================== LOBBY ====================== -->
-  <div id="lobby" class="overlay">
-    <div class="lobby-stars" id="lobby-stars"></div>
-    <div class="lobby-box">
-      <h1 class="title">raman_king</h1>
-      <div class="title-line"></div>
-      <div class="device-row" id="device-text">🖥️ PC</div>
-
-      <div class="inv-title">Dein Inventar (5 Slots)</div>
-      <div class="inv-slots" id="lobby-slots"></div>
-
-      <div class="ready-row">Bereit? Dann los!</div>
-      <button id="play-btn" class="play-btn">SPIELEN</button>
-
-      <div class="tips">
-        <div>WASD = Bewegen &nbsp;|&nbsp; Maus = Umsehen &nbsp;|&nbsp; Klick = Schießen</div>
-        <div>1-5 = Slot &nbsp;|&nbsp; E = Truhe öffnen &nbsp;|&nbsp; G = Droppen &nbsp;|&nbsp; Leertaste = Springen</div>
+  <!-- ====================== HERO ====================== -->
+  <section id="top" class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="badge">⚡ Drop 01 — jetzt live</div>
+        <h1>Trag was, das<br><span class="grad">knallt.</span></h1>
+        <p>Premium Dri-Tech Tees. Atmungsaktiv, schwerelos, in jeder Farbe deiner Wahl. Designed für die, die auffallen wollen.</p>
+        <div class="hero-cta">
+          <a href="#shop" class="btn btn-primary">Jetzt shoppen</a>
+          <a href="#configurator" class="btn btn-ghost">Eigene Farbe wählen →</a>
+        </div>
+        <div class="hero-meta">
+          <div><strong>4.9★</strong><span>2.4k Reviews</span></div>
+          <div><strong>48h</strong><span>Versand</span></div>
+          <div><strong>9</strong><span>Farben</span></div>
+        </div>
       </div>
-      <div class="version">raman_king 3D Battle Royale v2.0</div>
+      <div class="hero-shirt" id="hero-shirt-holder"></div>
     </div>
-  </div>
-
-  <!-- ====================== HUD ====================== -->
-  <div id="hud" class="hidden">
-    <!-- Fadenkreuz -->
-    <div id="crosshair">
-      <span class="ch ch-t"></span><span class="ch ch-b"></span>
-      <span class="ch ch-l"></span><span class="ch ch-r"></span>
+    <div class="marquee">
+      <div class="marquee-track">
+        <span>PREMIUM TEES&nbsp;✦&nbsp;FREE VIBES&nbsp;✦&nbsp;LIMITED DROP&nbsp;✦&nbsp;RAMAN WEAR&nbsp;✦&nbsp;PREMIUM TEES&nbsp;✦&nbsp;FREE VIBES&nbsp;✦&nbsp;LIMITED DROP&nbsp;✦&nbsp;RAMAN WEAR&nbsp;✦&nbsp;</span>
+      </div>
     </div>
+  </section>
 
-    <!-- Minimap oben rechts -->
-    <div id="minimap-wrap">
-      <div class="minimap-label">KARTE</div>
-      <canvas id="minimap" width="200" height="200"></canvas>
-      <div id="alive-counter">Alive: --</div>
-      <div id="storm-warn"></div>
+  <!-- ====================== CONFIGURATOR ====================== -->
+  <section id="configurator" class="config">
+    <div class="section-head">
+      <h2>Bau dir dein Shirt</h2>
+      <p>Wähl eine Farbe – das Shirt färbt sich live um.</p>
     </div>
-
-    <!-- Kill-Feed -->
-    <div id="killfeed"></div>
-
-    <!-- Interaktion-Prompt -->
-    <div id="interact-prompt" class="hidden">[ E ] Truhe öffnen</div>
-
-    <!-- HP-Balken -->
-    <div id="hp-wrap">
-      <div id="hp-bar"></div>
-      <div id="hp-text">100 HP</div>
+    <div class="config-grid">
+      <div class="config-preview">
+        <div class="preview-stage" id="preview-stage"></div>
+        <div class="preview-name" id="preview-name">Midnight Black</div>
+      </div>
+      <div class="config-panel">
+        <span class="config-label">Farbe wählen</span>
+        <div class="swatches" id="swatches"></div>
+        <div class="config-price">
+          <span>Einzelpreis</span>
+          <strong>10.000 €</strong>
+        </div>
+        <button class="btn btn-primary btn-block" id="config-add">In den Warenkorb</button>
+        <p class="config-note">✓ Gratis Rückversand · ✓ 100 Tage Garantie</p>
+      </div>
     </div>
+  </section>
 
-    <!-- Waffen-Hotbar unten -->
-    <div id="hotbar"></div>
-
-    <!-- Bus-Absprung-Hinweis -->
-    <div id="bus-prompt" class="hidden">Drücke <strong>LEERTASTE</strong> zum Abspringen!</div>
-
-    <!-- Pause/Pointerlock-Hinweis -->
-    <div id="lock-hint" class="hidden">Klicke, um weiterzuspielen</div>
-  </div>
-
-  <!-- ====================== ENDSCREENS ====================== -->
-  <div id="endscreen" class="overlay hidden">
-    <div class="end-panel" id="end-panel">
-      <div class="end-title" id="end-title"></div>
-      <div class="end-sub" id="end-sub"></div>
-      <button id="restart-btn" class="play-btn">Nochmal spielen</button>
+  <!-- ====================== SHOP / PRODUCTS ====================== -->
+  <section id="shop" class="shop">
+    <div class="section-head">
+      <h2>Die Drops</h2>
+      <p>Je mehr du nimmst, desto härter der Flex.</p>
     </div>
-  </div>
+    <div class="products" id="products"></div>
+  </section>
 
-  <script type="module" src="js/game.js"></script>
+  <!-- ====================== ABOUT ====================== -->
+  <section id="about" class="about">
+    <div class="about-inner">
+      <h2>Made for the bold.</h2>
+      <p>RAMAN WEAR ist kein Shirt. Es ist ein Statement. Hochwertiger Dri-Tech Stoff, der dich kühl hält, wenn's heiß wird – auf dem Court, auf der Straße, überall. Jedes Teil ist ein Limited Drop.</p>
+      <div class="about-cards">
+        <div class="about-card"><span>🌬️</span><h3>Dri-Tech</h3><p>Schweiß? Verdampft. Du bleibst trocken.</p></div>
+        <div class="about-card"><span>♻️</span><h3>Nachhaltig</h3><p>Recycelte Fasern, faire Produktion.</p></div>
+        <div class="about-card"><span>🚀</span><h3>48h Versand</h3><p>Heute bestellt, übermorgen am Start.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div>RAMAN<span class="brand-thin">WEAR</span></div>
+    <p>© 2026 RAMAN WEAR · Designed mit ⚡ · Alle Preise inkl. MwSt.</p>
+  </footer>
+
+  <!-- ====================== CART DRAWER ====================== -->
+  <div id="cart-overlay" class="cart-overlay"></div>
+  <aside id="cart-drawer" class="cart-drawer" aria-label="Warenkorb">
+    <div class="cart-header">
+      <h3>Dein Warenkorb</h3>
+      <button id="cart-close" class="cart-close" aria-label="Schließen">✕</button>
+    </div>
+    <div id="cart-items" class="cart-items"></div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Gesamt</span>
+        <strong id="cart-total">0 €</strong>
+      </div>
+      <button class="btn btn-primary btn-block" id="checkout-btn">Zur Kasse</button>
+    </div>
+  </aside>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="js/shop.js"></script>
 </body>
 </html>
